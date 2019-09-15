@@ -1,0 +1,95 @@
+#!/bin/bash
+read -p "enter your controller name: " name
+
+if [ $name != nil ]; then
+    n=${name:0:1}
+    res=${#name}
+    e=$((res-1))
+    rest=${name:1:e}
+    newName=${n^}$rest
+
+
+    mkdir src/app/$name
+    mkdir src/app/$name/controller
+    touch src/app/$name/controller/"$name.controller.ts"
+    echo "import { Request, Response, NextFunction } from 'express';
+import "$newName"Services from '../services/"$name".services';
+
+export default class "$newName"Controller {
+    static async methodName(req: Request, res: Response, next: NextFunction) {
+        // code goes here
+    }
+}
+" >> src/app/$name/controller/"$name.controller.ts"
+
+    mkdir src/app/$name/interface
+
+    mkdir src/app/$name/models
+    touch src/app/$name/models/"$name.models.ts"
+    echo "import { Schema, model } from 'mongoose';
+
+const "$newName"Schema = new Schema(
+{
+    title: {
+    type: String,
+    required: true
+    },},
+{ timestamps: { createdAt: 'created_at' } }
+);
+
+const "$newName"Model = model('"$newName"', "$newName"Schema);
+
+export default "$newName"Model;
+
+" >> src/app/$name/models/"$name.models.ts"
+
+    mkdir src/app/$name/routes
+    touch src/app/$name/routes/index.ts
+    echo "import Private from './private.routes';
+import Public from './public.routes';
+
+export default { Private, Public }
+" >> src/app/$name/routes/index.ts
+touch src/app/$name/routes/public.routes.ts
+echo "import { Router } from 'express';
+
+const route = Router();
+
+export default route;
+" >> src/app/$name/routes/public.routes.ts
+    touch src/app/$name/routes/private.routes.ts
+    echo "import { Router } from 'express';
+
+const route = Router();
+
+export default route;
+" >> src/app/$name/routes/private.routes.ts
+
+
+    mkdir src/app/$name/services
+    touch src/app/$name/services/"$name.services.ts"
+    echo "
+import "$newName"Model from '../models/"$name".models';
+import { ObjectId } from 'bson';
+
+export default class "$newName"Services {
+static async methodName() {
+    // out code
+}
+}
+" >>  src/app/$name/services/"$name.services.ts"
+
+    mkdir src/app/$name/validate
+    touch src/app/$name/validate/"$name.validate.ts"
+    echo "
+export default class "$newName"Validator {
+static async methodName() {
+    // out code
+}
+}
+" >> src/app/$name/validate/"$name.validate.ts"
+    echo "import "$newName"Route from './app/$name/routes/index';
+app.use('/$name', "$newName"Route.Public)" >> src/app.ts
+    echo "$newName module created in /src/app/$newName"
+fi
+

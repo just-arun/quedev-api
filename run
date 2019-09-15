@@ -1,0 +1,25 @@
+#!/bin/bash
+
+read -p "Enter Your Option: " option
+
+if [ "$option" == "dev" ]; then
+  npm run dev
+elif [ "$option" == "build" ]; then
+  npm run build
+elif [ "$option" == "start" ]; then
+  npm start
+elif [ "$option" == "test" ]; then
+  npm run test
+elif [ "$option" == "-h" ]; then
+  echo "-h    for help"
+  echo "dev   for starting developement server"
+  echo "build for building the application"
+  echo "start for starting the build application"
+  echo "test  for starting test"
+else
+  echo "-h    for help"
+  echo "dev   for starting developement server"
+  echo "build for building the application"
+  echo "start for starting the build application"
+  echo "test  for starting test"
+fi

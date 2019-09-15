@@ -1,0 +1,8 @@
+read -p "enter some shit: " name
+
+n=${name:0:1}
+res=${#name}
+e=$((res-1))
+rest=${name:1:e}
+newName=${n^}$rest
+echo $newName
