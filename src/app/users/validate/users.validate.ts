@@ -1,7 +1,7 @@
 
 export default class UsersValidator {
-static async methodName() {
-    // out code
-}
+    static async methodName() {
+        // out code
+    }
 }
 

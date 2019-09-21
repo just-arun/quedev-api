@@ -15,5 +15,34 @@ export default class UsersController {
             next(HandleError(500,error));
         }
     }
+    
+    static async UpdateOne(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
+        try {
+            let id = req.params.id;
+            let person = req.body;
+            const data = await UsersServices.UpdateOne(id,person);
+            res.status(200).json({data});
+        } catch (error) {
+            next(HandleError(500,error));
+        }
+    }
+
+    static async GetOne(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
+        try {
+            let id = req.params.id;
+            const data = await UsersServices.GetOne(id);
+            res.status(200).json({data});
+        } catch (error) {
+            next(HandleError(500, error));
+        }
+    }
 }
 

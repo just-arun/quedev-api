@@ -29,5 +29,3 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
 
 export default app;
-import LoginRoute from './app/login/routes/index';
-app.use('/login', LoginRoute.Public)
