@@ -9,11 +9,11 @@ export default class UsersServices {
     return new Promise(async (resolve, rejects) => {
       try {
         const { fname, lname, uname, email, pwd, goodin } = person;
-        genSalt(10, function(err, salt) {
+        genSalt(10, (err, salt) => {
           if (err) {
             throw err;
           }
-          hash(pwd, salt, function(err, hash) {
+          hash(pwd, salt, (err, hash) => {
             if (err) {
               throw err;
             }
@@ -33,23 +33,28 @@ export default class UsersServices {
 
   static async UpdateOne(id: string, person: UserInterface) {
     const { fname, lname, uname, email, goodin } = person;
-    return new Promise((resolve, rejects) => {
+    return new Promise(async (resolve, rejects) => {
       try {
         const _id = new ObjectId(id);
         const query = { fname, lname, uname, email, goodin };
-        UsersModel.updateOne({ _id }, query)
-          .then(data => resolve(data))
-          .catch(err => {
-            rejects(err);
-          });
+        const data =  await UsersModel.updateOne({ _id }, query)
+        return resolve(data);
       } catch (error) {
-        return resolve(error);
+        return rejects(error);
       }
     });
   }
 
-  static async GetOne() {
-
+  static async GetOne(id) {
+    return new Promise(async (resolve, rejects) => {
+      try {
+        const _id = new ObjectId(id);
+        const data = await UsersModel.findOne({_id});
+        return resolve(data);
+      } catch (error) {
+        return rejects(error);
+      }
+    });
   }
 
 }
