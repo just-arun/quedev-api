@@ -26,4 +26,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     res.status(statusCode).json({ error: { message } });
 });
 
+
+
 export default app;
+import LoginRoute from './app/login/routes/index';
+app.use('/login', LoginRoute.Public)

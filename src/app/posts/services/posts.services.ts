@@ -5,7 +5,7 @@ import UpdatePostInterface from "../interface/updatePostInterface";
 import { check, validationResult }  from 'express-validator';
 
 class PostsServices {
-  static async Create(post: PostInterface) {
+  static async Create(post: PostInterface): Promise<string> {
     return new Promise<string>(async (resolve, rejects) => {
       try {
         const { title, tags, body, author } = post;
@@ -19,7 +19,7 @@ class PostsServices {
     });
   }
 
-  static async GetAll(from: number) {
+  static async GetAll(from: number): Promise<Object[]> {
       return new Promise(async (resolve, rejects) => {
         try {
           const data = await PostModel
@@ -34,7 +34,7 @@ class PostsServices {
       });
   }
 
-  static async Get(id: string) {
+  static async Get(id: string): Promise<Object> {
     return new Promise(async (resolve, rejects) => {
       try {
         const _id = new ObjectId(id);
@@ -46,7 +46,7 @@ class PostsServices {
     });
   }
 
-  static async UpdateOne(id: string, post: UpdatePostInterface) {
+  static async UpdateOne(id: string, post: UpdatePostInterface): Promise<Document> {
     return new Promise(async (resolve, rejects) => {
       try {
         const _id = new ObjectId(id);
@@ -60,7 +60,7 @@ class PostsServices {
     });
   }
   
-  static async Catagories(tags: string) {
+  static async Catagories(tags: string): Promise<Object[]> {
     return new Promise(async (resolve, rejects) => {
       try {
         const data = await PostModel.find({ tags })
@@ -72,7 +72,7 @@ class PostsServices {
     });
   }
 
-  static async SearchFunc(keyWords: string) {
+  static async SearchFunc(keyWords: string): Promise<Object[]> {
     return new Promise(async (resolve, rejects) => {
       try {
         const data = await PostModel.find({ name: { $regex: keyWords, $options: "gi" }})
@@ -94,7 +94,7 @@ class PostsServices {
     })
   }
 
-  static async DeleteOne(id: string) {
+  static async DeleteOne(id: string): Promise<Object> {
     const _id = new ObjectId(id)
     return new Promise(async (resolve, rejects) => {
       try {
