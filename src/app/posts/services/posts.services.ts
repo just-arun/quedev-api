@@ -20,15 +20,14 @@ class PostsServices {
   }
 
   static async GetAll(from: number) {
-      return new Promise((resolve, rejects) => {
+      return new Promise(async (resolve, rejects) => {
         try {
-          PostModel
+          const data = await PostModel
             .find({})
             .skip(from)
             .limit(10)
-            .sort({created_at:-1})
-            .then((data) => resolve(data) )
-            .catch((err) => { throw err; })
+            .sort({created_at:-1});
+          return resolve(data);
         } catch (error) {
             return rejects(error);
         }
@@ -36,12 +35,11 @@ class PostsServices {
   }
 
   static async Get(id: string) {
-    return new Promise((resolve, rejects) => {
+    return new Promise(async (resolve, rejects) => {
       try {
         const _id = new ObjectId(id);
-        PostModel.findOne({_id: _id})
-          .then((data) => resolve(data) )
-          .catch((err) => { throw err; });
+        const data = await PostModel.findOne({_id})
+          return resolve(data);
       } catch (error) {
         return rejects(error);
       }
@@ -49,14 +47,13 @@ class PostsServices {
   }
 
   static async UpdateOne(id: string, post: UpdatePostInterface) {
-    return new Promise((resolve, rejects) => {
+    return new Promise(async (resolve, rejects) => {
       try {
         const _id = new ObjectId(id);
         const { title, tags, body } = post;
         const description = body.slice(0,599);
-        PostModel.updateOne({ _id }, { $set: { title, description, tags, body } })
-          .then((data) =>  resolve(data) )
-          .catch((err) => { throw err; })
+        const data = await PostModel.updateOne({ _id }, { $set: { title, description, tags, body } });
+        return resolve(data);
       } catch (error) {
         return rejects(error);
       }
@@ -64,12 +61,11 @@ class PostsServices {
   }
   
   static async Catagories(tags: string) {
-    return new Promise((resolve, rejects) => {
+    return new Promise(async (resolve, rejects) => {
       try {
-        PostModel.find({ tags })
+        const data = await PostModel.find({ tags })
         .sort({created_at:-1})
-        .then((data) => resolve(data))
-        .catch((err) => { throw err; });
+        return resolve(data);
       } catch (error) {
         return rejects(error);
       }
@@ -77,11 +73,10 @@ class PostsServices {
   }
 
   static async SearchFunc(keyWords: string) {
-    return new Promise((resolve, rejects) => {
+    return new Promise(async (resolve, rejects) => {
       try {
-        PostModel.find({ name: { $regex: keyWords, $options: "gi" }})
-          .then((data) => resolve(data))
-          .catch((err) => { throw err })
+        const data = await PostModel.find({ name: { $regex: keyWords, $options: "gi" }})
+        return resolve(data);
       } catch (error) {
         return rejects(error);
       }
@@ -89,11 +84,10 @@ class PostsServices {
   }
 
   static async TotalCount() {
-    return new Promise((resolve, rejects) => {
+    return new Promise(async (resolve, rejects) => {
       try {
-        PostModel.find({}).count()
-          .then((data) => resolve(data))
-          .catch(err => { throw err })
+        const data = await PostModel.find({}).count()
+        return resolve(data);
       } catch (error) {
         return rejects(error);
       }
@@ -102,11 +96,10 @@ class PostsServices {
 
   static async DeleteOne(id: string) {
     const _id = new ObjectId(id)
-    return new Promise((resolve, rejects) => {
+    return new Promise(async (resolve, rejects) => {
       try {
-        PostModel.deleteOne({ _id })
-          .then(data => resolve(data))
-          .catch(err => { throw err });
+        const data = await PostModel.deleteOne({ _id })
+        return resolve(data);
       } catch (error) {
         return rejects(error)
       }
