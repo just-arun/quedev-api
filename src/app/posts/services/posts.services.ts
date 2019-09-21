@@ -6,13 +6,12 @@ import { check, validationResult }  from 'express-validator';
 
 class PostsServices {
   static async Create(post: PostInterface) {
-    return new Promise<string>((resolve, rejects) => {
+    return new Promise<string>(async (resolve, rejects) => {
       try {
-        let error = false;
         const { title, tags, body, author } = post;
         const description = body.slice(0,599);
         check(title).isEmpty();
-        PostModel.insertMany({ title, tags, description, body, author });
+        await PostModel.insertMany({ title, tags, description, body, author });
         return resolve("post created");
       } catch (error) {
         return rejects(error);
